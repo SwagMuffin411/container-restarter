@@ -1,6 +1,6 @@
 services:
   container-restarter:
-    build: .
+    image: swagmuffin411/container-restarter:latest
     container_name: container-restarter
     restart: unless-stopped
     environment:
