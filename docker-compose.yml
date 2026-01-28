@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  container-restarter:
+    build: .
+    container_name: container-restarter
+    restart: unless-stopped
+    environment:
+      # Portainer connection settings
+      PORTAINER_URL: "http://portainer:9000"  # Change to your Portainer URL
+
+      # Authentication - Use EITHER API Key OR Username/Password
+      PORTAINER_API_KEY: "ptr_your-api-key-here"  # Preferred method
+      # PORTAINER_USERNAME: "admin"           # Alternative: username
+      # PORTAINER_PASSWORD: "password"        # Alternative: password
+
+      # Endpoint and container settings
+      ENDPOINT_ID: "1"                        # Portainer endpoint ID (usually 1)
+      CONTAINER_NAME: "your-container-name"   # Name or ID of container to restart
+
+      # Schedule settings
+      RESTART_TIME: "03:00"                   # Time to restart (24-hour format HH:MM)
+      CHECK_INTERVAL: "60"                    # How often to check time in seconds (default: 60)
+
+    # Optional: if you want to use a specific timezone
+    # volumes:
+    #   - /etc/localtime:/etc/localtime:ro
