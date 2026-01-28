@@ -19,6 +19,47 @@ A Python-based Docker container that automatically restarts a specified Docker c
 
 ## Quick Start
 
+### Deploying via Portainer (Easiest)
+
+The Docker image is automatically built and published to Docker Hub via GitHub Actions.
+
+1. **In Portainer, create a new Stack**
+   - Go to **Stacks** → **Add stack**
+   - Name it `container-restarter`
+
+2. **Use the Web editor and paste this:**
+
+```yaml
+services:
+  container-restarter:
+    image: swagmuffin411/container-restarter:latest
+    container_name: container-restarter
+    restart: unless-stopped
+    environment:
+      PORTAINER_URL: "https://your-portainer-url.com"
+      PORTAINER_API_KEY: "ptr_your-api-key-here"
+      ENDPOINT_ID: "1"
+      CONTAINER_NAME: "container-to-restart"
+      RESTART_TIME: "03:00"
+      CHECK_INTERVAL: "60"
+```
+
+3. **Update the environment variables** with your actual values
+4. **Click "Deploy the stack"**
+
+### Deploying from GitHub Repository
+
+Alternatively, you can deploy directly from this repository:
+
+1. In Portainer: **Stacks** → **Add stack**
+2. Choose **Repository**
+3. Repository URL: `https://github.com/SwagMuffin411/container-restarter.git`
+4. Compose path: `docker-compose.portainer.yml`
+5. Edit environment variables in the web editor
+6. Deploy
+
+---
+
 ### 1. Get Your Portainer API Key
 
 To create an API key in Portainer:
@@ -217,6 +258,33 @@ This tool uses the following Portainer API endpoints:
 For more information, see:
 - [Portainer API Documentation](https://docs.portainer.io/api/docs)
 - [API Usage Examples](https://docs.portainer.io/api/examples)
+
+## Development
+
+### Automatic Docker Hub Publishing
+
+This repository includes a GitHub Actions workflow that automatically builds and publishes the Docker image to Docker Hub whenever you push to the master branch.
+
+**To enable automatic builds:**
+
+1. Create a Docker Hub account if you don't have one
+2. In GitHub, go to your repository **Settings** → **Secrets and variables** → **Actions**
+3. Add two secrets:
+   - `DOCKER_USERNAME`: Your Docker Hub username
+   - `DOCKER_PASSWORD`: Your Docker Hub password or access token
+
+The workflow will automatically build and push new images tagged as:
+- `swagmuffin411/container-restarter:latest`
+- `swagmuffin411/container-restarter:<commit-sha>`
+
+### Manual Build
+
+To build locally:
+
+```bash
+docker build -t swagmuffin411/container-restarter:latest .
+docker push swagmuffin411/container-restarter:latest
+```
 
 ## License
 

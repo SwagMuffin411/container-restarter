@@ -1,6 +1,8 @@
 services:
   container-restarter:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: container-restarter
     restart: unless-stopped
     environment:
